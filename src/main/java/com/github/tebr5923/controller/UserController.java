@@ -1,12 +1,11 @@
 package com.github.tebr5923.controller;
 
+import com.github.tebr5923.model.User;
 import com.github.tebr5923.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
@@ -19,15 +18,25 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/new")
+    public String newUser(@ModelAttribute("user") User user) {
+        return "users/new";
+    }
+
+    @PostMapping
+    public String create(@ModelAttribute("user") User user) {
+        userService.saveUser(user);
+        return "redirect:/users";
+    }
+
     @GetMapping
-    public String list(Model model){
+    public String list(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "users/list";
     }
 
     @GetMapping("/{id}")
-    public String user(@PathVariable("id") long id, Model model){
-        System.out.println(userService.getAllUsers());
+    public String user(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
         return "users/user";
     }

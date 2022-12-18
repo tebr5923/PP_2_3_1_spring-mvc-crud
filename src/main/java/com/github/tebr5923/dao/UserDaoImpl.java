@@ -1,58 +1,44 @@
 package com.github.tebr5923.dao;
 
 import com.github.tebr5923.model.User;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.TypedQuery;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
+@Transactional
 public class UserDaoImpl implements UserDao {
 
-    @Autowired
-    private SessionFactory sessionFactory;
-
-    @Override
-    public void createUsersTable() {
-
-    }
-
-    @Override
-    public void dropUsersTable() {
-
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public void saveUser(User user) {
-        sessionFactory.getCurrentSession().save(user);
+        entityManager.persist(user);
     }
 
     @Override
     public void updateUser(User user) {
-
+        entityManager.merge(user);
     }
 
     @Override
-    public void deleteUser(User user) {
-
+    public void deleteUserById(long id) {
+        entityManager.remove(getUserById(id));
     }
 
     @Override
     public User getUserById(long id) {
-        return sessionFactory.getCurrentSession().load(User.class, id);
+        return   entityManager.find(User.class, id);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
-        return query.getResultList();
+        return entityManager.createQuery("FROM User", User.class)
+                .getResultList();
     }
 
-    @Override
-    public void cleanUsersTable() {
-
-    }
 }

@@ -4,6 +4,7 @@ import com.github.tebr5923.dao.UserDao;
 import com.github.tebr5923.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,42 +19,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUsersTable() {
-        userDao.createUsersTable();
-    }
-
-    @Override
-    public void dropUsersTable() {
-        userDao.dropUsersTable();
-    }
-
-    @Override
+    @Transactional
     public void saveUser(User user) {
         userDao.saveUser(user);
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
         userDao.updateUser(user);
     }
 
     @Override
-    public void deleteUser(User user) {
-        userDao.deleteUser(user);
+    @Transactional
+    public void deleteUserById(long id) {
+        userDao.deleteUserById(id);
     }
 
     @Override
+    @Transactional
     public User getUserById(long id) {
         return userDao.getUserById(id);
     }
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
-    @Override
-    public void cleanUsersTable() {
-        userDao.cleanUsersTable();
-    }
 }
