@@ -7,16 +7,17 @@
 </head>
 <body>
 
-
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{firstName}" id="name"/>
+<form th:method="POST" th:action="@{/users/{userId}/update(userId=${user.id})}" th:object="${user}">
+    <label for="firstName">Username:
+        <input type="text" name="firstName" th:value="*{firstName}" id="firstName">
+    </label>
     <br/>
-    <input type="submit" value="Create"/>
-
+    <input type="submit" value="Update"/>
 </form>
 
-<p th:text="${user.getFirstName()}">NAME</p>
-<p th:text="${user.getId()}">ID</p>
+
+<form th:method="POST" th:action="@{/users/{userId}/delete(userId=${user.id})}">
+    <input type="submit" value="Delete"/>
+</form>
 </body>
 </html>
