@@ -7,20 +7,14 @@
 </head>
 <body>
 
-<table border="1">
-    <caption>USERS</caption>
-    <tr>
-        <th>id</th>
-        <th>Имя</th>
-    </tr>
-    <tr th:each="user : ${users}">
-        <td th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getId()}">id</td>
-        <td th:text="${user.getFirstName()}">name</td>
-    </tr>
-</table>
 <div th:each="user : ${users}">
     <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="|${user.getId()}. ${user.getFirstName()}|">USER</a>
-
 </div>
+
+
+<form th:method="GET" action="/users/new">
+    <br/>
+    <input type="submit" value="New User"/>
+</form>
 </body>
 </html>
